@@ -1,0 +1,12 @@
+C:\practice2025\task01\bin\Debug\net9.0\task01.deps.json
+C:\practice2025\task01\bin\Debug\net9.0\task01.dll
+C:\practice2025\task01\bin\Debug\net9.0\task01.pdb
+C:\practice2025\task01\obj\Debug\net9.0\task01.GeneratedMSBuildEditorConfig.editorconfig
+C:\practice2025\task01\obj\Debug\net9.0\task01.AssemblyInfoInputs.cache
+C:\practice2025\task01\obj\Debug\net9.0\task01.AssemblyInfo.cs
+C:\practice2025\task01\obj\Debug\net9.0\task01.csproj.CoreCompileInputs.cache
+C:\practice2025\task01\obj\Debug\net9.0\task01.sourcelink.json
+C:\practice2025\task01\obj\Debug\net9.0\task01.dll
+C:\practice2025\task01\obj\Debug\net9.0\refint\task01.dll
+C:\practice2025\task01\obj\Debug\net9.0\task01.pdb
+C:\practice2025\task01\obj\Debug\net9.0\ref\task01.dll
