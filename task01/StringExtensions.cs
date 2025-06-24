@@ -17,9 +17,9 @@ namespace task01
 
             string ReversedfilteredInputString = "";
 
-            for (int i = 0 ; i < filteredInputString.Length; i++)
+            for (int i = 0; i < filteredInputString.Length; i++)
                 ReversedfilteredInputString += filteredInputString[filteredInputString.Length - 1 - i];
-            
+
             return filteredInputString.SequenceEqual(ReversedfilteredInputString);
         }
     }
