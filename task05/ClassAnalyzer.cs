@@ -11,12 +11,20 @@ public class ClassAnalyzer
     }
     public IEnumerable<string> GetPublicMethods()
     {
-        return _type.GetMethods().Where(s => s.IsPublic == true).Select(x => x.Name).AsEnumerable();
+        return _type
+                    .GetMethods()
+                    .Where(s => s.IsPublic == true)
+                    .Select(x => x.Name)
+                    .ToList();
     }
-
     public IEnumerable<string> GetMethodParams(string methodname)
     {
-        return _type.GetMethod(methodname).GetParameters().Select(p => p.Name).AsEnumerable();
+        var method = _type.GetMethod(methodname);
+        return method?
+                    .GetParameters()
+                    .Select(p => p.Name ?? string.Empty) 
+                    .ToList() 
+                    ?? Enumerable.Empty<string>();
     }
     public IEnumerable<string> GetAllFields()
     {
@@ -26,17 +34,14 @@ public class ClassAnalyzer
         return _type
                     .GetFields(bindigFlags)
                     .Select(f => f.Name)
-                    .AsEnumerable();
+                    .ToList();
     }
-    // Список имен свойств
     public IEnumerable<string> GetProperties()
     {
-        return _type.GetProperties().Select(p => p.Name).AsEnumerable();
+        return _type.GetProperties().Select(p => p.Name).ToList();
     }
-    // // Наличие атрибута указанного типа у класса
     public bool HasAttribute<T>() where T : Attribute
     {
-        // Проверяем, есть ли у типа атрибут T
         return Attribute.IsDefined(_type, typeof(T));
     }
 }
