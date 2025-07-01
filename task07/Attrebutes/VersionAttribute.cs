@@ -7,8 +7,8 @@ namespace Attributes;
 )]
 public sealed class VersionAttribute : System.Attribute
 {
-    public int Major { get; } 
-    public int Minor { get; } 
+    public int Major { get; }
+    public int Minor { get; }
 
     public VersionAttribute(int Major, int Minor)
     {

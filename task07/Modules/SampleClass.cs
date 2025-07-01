@@ -9,5 +9,5 @@ public class SampleClass
     [DisplayName("Тестовый метод")]
     public void TestMethod() { }
     [DisplayName("Числовое свойство")]
-    public int Number{ set; get; }
+    public int Number { set; get; }
 }

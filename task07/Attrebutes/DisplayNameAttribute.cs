@@ -7,7 +7,7 @@ namespace Attributes;
 )]
 public sealed class DisplayNameAttribute : System.Attribute
 {
-    public string DisplayName { get; } 
+    public string DisplayName { get; }
 
     public DisplayNameAttribute(string displayName)
     {
