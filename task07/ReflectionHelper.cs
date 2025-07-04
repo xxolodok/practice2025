@@ -14,10 +14,7 @@ namespace task07
             var version = type.GetCustomAttribute<VersionAttribute>();
             Console.WriteLine($"Версия класса: {(version != null ? $"{version.Major}.{version.Minor}" : "версия указана")}");
 
-            // Вывод информации о методах
             PrintMembersInfo(type.GetMethods(BindingFlags.Public | BindingFlags.Instance), "Методы");
-
-            // Вывод информации о свойствах
             PrintMembersInfo(type.GetProperties(), "Свойства");
         }
 
@@ -25,11 +22,11 @@ namespace task07
         {
             Console.WriteLine($"\n{title}:");
 
-            foreach (var member in members)
+            members.ToList().ForEach(member =>
             {
                 var displayName = member.GetCustomAttribute<DisplayNameAttribute>();
                 Console.WriteLine($"  {member.Name}: {(displayName != null ? displayName.DisplayName : "нет описания")}");
-            }
+            });
         }
     }
 }
