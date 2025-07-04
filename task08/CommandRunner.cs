@@ -38,7 +38,7 @@ public static class CommandRunner
     private static void InvokeDirectorySizeCommand()
     {
         string testDir = CreateDirectory();
-        
+
         Assembly assembly = LoadAssembly();
 
         Type commandType = assembly.GetType("FileSystemCommands.DirectorySizeCommand");
@@ -75,8 +75,6 @@ public static class CommandRunner
         File.WriteAllText(Path.Combine(testDir, "test2.txt"), "World");
 
         return testDir;
+
     }
-    private static void RemoveDirectory(string testDir)
-        => Directory.Delete(testDir, recursive: true);
-    
 }

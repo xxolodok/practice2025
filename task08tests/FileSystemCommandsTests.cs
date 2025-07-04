@@ -25,7 +25,7 @@ public class FileSystemCommandsTests
         command.Execute();
         var output = consoleOutput.ToString().Trim();
 
-        Assert.Equal($"Размер директории: 17 байтов", output);
+        Assert.Equal($"Размер директории: 10 байтов", output);
 
 
 
