@@ -46,8 +46,28 @@ public class AttributeReflectionTests
     }
 
     [Fact]
-    public void TestName()
-    {
-        ReflectionHelper.PrintTypeInfo(typeof(SampleClass));
-    }
+        public void PrintTypeInfo_ShouldOutputCorrectTypeInformation()
+        {
+            var sampleType = typeof(SampleClass);
+            var expectedOutputParts = new[]
+            {
+                "Отображаемое имя класса: Пример класса",
+                "Версия класса: 1.0",
+                "Методы:",
+                "  TestMethod: Тестовый метод",
+                "Свойства:",
+                "  Number: Числовое свойство"
+            };
+
+            var stringWriter = new StringWriter();
+            Console.SetOut(stringWriter);
+
+            ReflectionHelper.PrintTypeInfo(sampleType);
+            var output = stringWriter.ToString();
+
+            foreach (var expectedPart in expectedOutputParts)
+            {
+                Assert.Contains(expectedPart, output);
+            }
+        }
 }
