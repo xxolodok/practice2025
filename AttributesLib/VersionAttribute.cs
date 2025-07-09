@@ -1,11 +1,11 @@
 namespace Attributes;
 
-[System.AttributeUsage(
-    System.AttributeTargets.All,
+[AttributeUsage(
+    AttributeTargets.All,
     Inherited = false,
     AllowMultiple = true
 )]
-public sealed class VersionAttribute : System.Attribute
+public sealed class VersionAttribute : Attribute
 {
     public int Major { get; }
     public int Minor { get; }

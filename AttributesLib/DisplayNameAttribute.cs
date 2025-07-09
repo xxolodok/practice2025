@@ -1,11 +1,11 @@
 namespace Attributes;
 
-[System.AttributeUsage(
-    System.AttributeTargets.All,
+[AttributeUsage(
+    AttributeTargets.All,
     Inherited = false,
     AllowMultiple = true
 )]
-public sealed class DisplayNameAttribute : System.Attribute
+public sealed class DisplayNameAttribute : Attribute
 {
     public string DisplayName { get; }
 
