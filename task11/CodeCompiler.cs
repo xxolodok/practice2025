@@ -25,6 +25,7 @@ static public class CodeCompiler
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
         var ms = new MemoryStream();
+        EmitResult result = compilation.Emit(ms);
 
         Assembly assembly = Assembly.Load(ms.ToArray());
 
