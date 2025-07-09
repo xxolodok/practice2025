@@ -18,7 +18,7 @@ namespace AssemblyMetadataViewer.Tests
                 throw new DirectoryNotFoundException("Не удалось найти корневую директорию решения");
             }
 
-            return Path.Combine(solutionDir, "TestClassesLib", "bin", "Debug", "net9.0", "TestClasses.dll");
+            return Path.Combine(solutionDir,"../", "TestClassesLib", "TestClasses.dll");
         }
 
         private string RunProgramAndGetOutput(string assemblyPath)
