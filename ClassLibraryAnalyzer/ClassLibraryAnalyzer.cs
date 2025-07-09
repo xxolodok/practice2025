@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Linq;
+using Attributes;
 
 namespace AssemblyMetadataViewer
 {
@@ -8,95 +10,96 @@ namespace AssemblyMetadataViewer
     {
         static void Main(string[] args)
         {
+            if (args.Length == 0)
+            {
+                Console.WriteLine("Укажите путь к сборке");
+                return;
+            }
+
             string assemblyPath = args[0];
-
-            PrintAssemblyMetadata(assemblyPath);
+            ClassLibraryAnalyzer.PrintAssemblyMetadata(assemblyPath);
         }
+    }
+}
 
-        static void PrintAssemblyMetadata(string assemblyPath)
+public static class ClassLibraryAnalyzer
+{
+    public static void PrintAssemblyMetadata(string assemblyPath)
+    {
+        var assembly = Assembly.LoadFrom(assemblyPath);
+
+        Console.WriteLine($"Сборка: {assembly.FullName}");
+
+        Console.WriteLine("====================================");
+
+        assembly
+                .GetTypes()
+                .ToList()
+                .ForEach(
+                    PrintTypeMetadata
+                );
+    }
+
+    private static void PrintTypeMetadata(Type type)
+    {
+        Console.WriteLine($"\nКласс: {type.FullName}");
+
+        var attributes = type.GetCustomAttributesData();
+
+        if (attributes.Count > 0)
         {
-            var assembly = Assembly.LoadFrom(assemblyPath);
-
-            Console.WriteLine($"Сборка: {assembly.FullName}");
-
-            Console.WriteLine("====================================");
-
-            assembly
-                    .GetTypes()
+            Console.WriteLine("  Атрибуты:");
+            attributes
                     .ToList()
                     .ForEach(
-                        PrintTypeMetadata
+                        attr => Console.WriteLine($"    {attr.AttributeType.Name}")
                     );
-
         }
 
-        static void PrintTypeMetadata(Type type)
+        var constructors = type.GetConstructors(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
+
+        if (constructors.Length > 0)
         {
+            Console.WriteLine("  Конструкторы:");
 
-            Console.WriteLine($"\nКласс: {type.FullName}");
-
-            var attributes = type.GetCustomAttributesData();
-
-            if (attributes.Count > 0)
-            {
-                Console.WriteLine("  Атрибуты:");
-                attributes
+            constructors
                         .ToList()
                         .ForEach(
-                            attr
-                            => Console.WriteLine($"    {attr.AttributeType.Name}")
-                        );
-            }
-
-            var constructors = type.GetConstructors(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
-
-            if (constructors.Length > 0)
-            {
-                Console.WriteLine("  Конструкторы:");
-
-                constructors
-                            .ToList()
-                            .ForEach(
-                                ctor
-                                =>
-                                {
-                                    Console.Write($"    {type.Name}(");
-                                    var parameters = ctor.GetParameters();
-                                    parameters
-                                            .ToList()
-                                            .ForEach(
-                                                param
-                                                => Console.Write($"{param.ParameterType.Name} {param.Name}, ")
-                                                );
-                                    Console.WriteLine(")");
-                                }
-                            );
-            }
-
-            var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
-            if (methods.Length > 0)
-            {
-                Console.WriteLine("  Методы:");
-
-                methods
-                        .ToList()
-                        .ForEach(
-                            method
-                            =>
+                            ctor =>
                             {
-                                Console.Write($"    {method.ReturnType.Name} {method.Name}(");
-                                var parameters = method.GetParameters();
-
+                                Console.Write($"    {type.Name}(");
+                                var parameters = ctor.GetParameters();
                                 parameters
                                         .ToList()
                                         .ForEach(
-                                            param
-                                            => Console.Write($"{param.ParameterType.Name} {param.Name}, ")
+                                            param => Console.Write($"{param.ParameterType.Name} {param.Name}, ")
                                         );
                                 Console.WriteLine(")");
                             }
                         );
-            }
+        }
+
+        var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
+        if (methods.Length > 0)
+        {
+            Console.WriteLine("  Методы:");
+
+            methods
+                    .ToList()
+                    .ForEach(
+                        method =>
+                        {
+                            Console.Write($"    {method.ReturnType.Name} {method.Name}(");
+                            var parameters = method.GetParameters();
+
+                            parameters
+                                    .ToList()
+                                    .ForEach(
+                                        param => Console.Write($"{param.ParameterType.Name} {param.Name}, ")
+                                    );
+                            Console.WriteLine(")");
+                        }
+                    );
         }
     }
 }
