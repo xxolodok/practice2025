@@ -39,6 +39,6 @@ public class TestClass2
     }
 
     [DisplayName("Строчное свойство")]
-    public string String { get; set; }
+    public string? String { get; set; }
 
 }

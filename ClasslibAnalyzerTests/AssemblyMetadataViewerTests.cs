@@ -12,8 +12,13 @@ namespace AssemblyMetadataViewer.Tests
     {
         private string GetTestAssemblyPath()
         {
-            var solutionDir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
-            return Path.Combine(solutionDir, "../", "TestClassesLib", "TestClasses.dll");
+            var solutionDir = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent?.FullName;
+            if (string.IsNullOrEmpty(solutionDir))
+            {
+                throw new DirectoryNotFoundException("Не удалось найти корневую директорию решения");
+            }
+
+            return Path.Combine(solutionDir, "TestClassesLib", "bin", "Debug", "net9.0", "TestClasses.dll");
         }
 
         private string RunProgramAndGetOutput(string assemblyPath)
