@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <!-- Явное указание выходного пути -->
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <!-- Установка имени выходной сборки -->
+    <AssemblyName>TestClasses</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AttributesLib\AttributesLib.csproj" />
+  </ItemGroup>
+
+  <Target Name="CopyToTestLib" AfterTargets="Build">
+    <PropertyGroup>
+      <!-- Используем абсолютный путь для надежности -->
+      <SolutionDir>$(MSBuildThisFileDirectory)..\</SolutionDir>
+      <TestClassesLibPath>$(SolutionDir)TestClassesLib\</TestClassesLibPath>
+    </PropertyGroup>
+    
+    <!-- Создаем папку, если ее нет -->
+    <MakeDir Directories="$(TestClassesLibPath)" 
+             Condition="!Exists('$(TestClassesLibPath)')" />
+    
+    <!-- Копируем основные выходные файлы -->
+    <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" 
+          DestinationFolder="$(TestClassesLibPath)" />
+    
+  </Target>
+
+</Project>
