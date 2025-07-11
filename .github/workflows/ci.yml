@@ -1,8 +1,8 @@
 on:
   push:
-    branches: [ "task01", "main"]
+    branches: [ "*"]
   pull_request:
-    branches:  [ "task01", "main"]
+    branches:  [ "main"]
 
 jobs:
   build:
