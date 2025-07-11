@@ -5,26 +5,15 @@ using System.Linq;
 using System.Reflection;
 using Interfaces;
 using AttributesLib;
-
-public class PluginLoader
+namespace PluginLoader;
+public static class PluginLoader
 {
-    public static void Main(string[] args)
+    public static void LoadAndExecutePlugins(string pluginsPath)
     {
-        Console.WriteLine("=== Система загрузки плагинов ===");
-
-        var loader = new PluginLoader();
-        loader.LoadAndExecutePlugins();
-
-        Console.WriteLine("\nВсе плагины выполнены!");
-        Console.ReadKey();
-    }
-
-    public void LoadAndExecutePlugins()
-    {
-        string pluginsPath = Path.Combine("..", "PluginLib");
+        string _pluginsPath = pluginsPath;
 
         var loadedAssemblies = Directory
-            .GetFiles(pluginsPath, "*.dll")
+            .GetFiles(_pluginsPath, "*.dll")
             .Select(dllPath => new
             {
                 Assembly = Assembly.LoadFrom(dllPath),
@@ -75,7 +64,7 @@ public class PluginLoader
         }
     }
 
-    private List<Type> TopologicalSort(List<Type> pluginTypes)
+    private static List<Type> TopologicalSort(List<Type> pluginTypes)
     {
         var graph = pluginTypes.ToDictionary(
             type => type,
