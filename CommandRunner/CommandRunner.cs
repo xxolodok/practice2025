@@ -66,9 +66,10 @@ public static class CommandRunner
     }
     private static Assembly LoadAssembly()
     {
-        string assemblyPath = "C:/practice2025/FileSystemCommands/bin/Debug/net9.0/FileSystemCommands.dll";
-        var normalizedPath = Path.GetFullPath(assemblyPath.Replace('/', Path.DirectorySeparatorChar));
-        var assembly = Assembly.LoadFile(normalizedPath);
+       var assemblyPath = Path.Combine(
+    Directory.GetCurrentDirectory(), 
+    "../../../../FileSystemCommands/bin/Debug/net9.0/FileSystemCommands.dll");
+var assembly = Assembly.LoadFile(assemblyPath);
         return assembly;
     }
     private static string CreateDirectory()
