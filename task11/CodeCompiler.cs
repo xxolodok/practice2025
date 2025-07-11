@@ -6,31 +6,37 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using System.Reflection;
 using System.IO;
+using Interfaces;
 
 static public class CodeCompiler
 {
-    static public dynamic CodeGenerate(string code)
+    static public ICalculator CodeGenerate(string code)
     {
-        SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code);
-        MetadataReference[] references =
-        [
+        var syntaxTree = CSharpSyntaxTree.ParseText(code);
+        
+        var references = new MetadataReference[]
+        {
             MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-            MetadataReference.CreateFromFile(typeof(Console).Assembly.Location)
-        ];
+            MetadataReference.CreateFromFile(typeof(ICalculator).Assembly.Location)
+        };
 
-        CSharpCompilation compilation = CSharpCompilation.Create(
+        var compilation = CSharpCompilation.Create(
             "GeneratedAssembly",
             new[] { syntaxTree },
             references,
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
-        var ms = new MemoryStream();
-        EmitResult result = compilation.Emit(ms);
+        using var ms = new MemoryStream();
+        var result = compilation.Emit(ms);
 
-        Assembly assembly = Assembly.Load(ms.ToArray());
+        if (!result.Success)
+        {
+            throw new InvalidOperationException("Compilation failed");
+        }
 
-        Type calculatorType = assembly.GetType("Calculator")!;
-
-        return Activator.CreateInstance(calculatorType)!;
+        ms.Seek(0, SeekOrigin.Begin);
+        var assembly = System.Runtime.Loader.AssemblyLoadContext.Default.LoadFromStream(ms);
+        var calculatorType = assembly.GetType("Calculator");
+        return (ICalculator)Activator.CreateInstance(calculatorType);
     }
 }
