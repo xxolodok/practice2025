@@ -41,9 +41,9 @@ public static class CommandRunner
 
         Assembly assembly = LoadAssembly();
 
-        Type commandType = assembly.GetType("FileSystemCommands.DirectorySizeCommand");
-        object commandInstance = Activator.CreateInstance(commandType, testDir);
-        MethodInfo executeMethod = commandType.GetMethod("Execute");
+        Type commandType = assembly.GetType("FileSystemCommands.DirectorySizeCommand")!;
+        object commandInstance = Activator.CreateInstance(commandType, testDir)!;
+        MethodInfo executeMethod = commandType.GetMethod("Execute")!;
         executeMethod.Invoke(commandInstance, null);
     }
 
@@ -55,10 +55,10 @@ public static class CommandRunner
 
         Assembly assembly = LoadAssembly();
 
-        var commandType = assembly.GetType("FileSystemCommands.FindFilesCommand");
-        var commandInstance = Activator.CreateInstance(commandType, new[] { testDir, Mask });
-        var executeMethod = commandType.GetMethod("Execute");
-        executeMethod.Invoke(commandInstance, null);
+        Type? commandType = assembly.GetType("FileSystemCommands.FindFilesCommand");
+        var commandInstance = Activator.CreateInstance(commandType!, new[] { testDir, Mask });
+        var executeMethod = commandType!.GetMethod("Execute");
+        executeMethod?.Invoke(commandInstance, null);
     }
     private static Assembly LoadAssembly()
     {
