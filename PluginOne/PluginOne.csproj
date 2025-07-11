@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\AttributesLib\AttributesLib.csproj" />
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+<PropertyGroup>
+    <PluginOutputPath>../PluginLib/</PluginOutputPath>
+  </PropertyGroup>
+
+  <Target Name="CopyToPluginLib" AfterTargets="Build">
+    <ItemGroup>
+      <PluginFiles Include="$(OutputPath)$(AssemblyName).dll" />
+      <PluginFiles Include="$(OutputPath)$(AssemblyName).pdb" />
+    </ItemGroup>
+    
+    <MakeDir Directories="$(PluginOutputPath)" />
+    <Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(PluginOutputPath)" SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>
