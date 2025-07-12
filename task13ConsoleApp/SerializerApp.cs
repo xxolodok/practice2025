@@ -72,7 +72,7 @@ public static class SerializerApp
 public class DateFormatConverter : JsonConverter<DateTime>
 {
     private const string Format = "yyyy-MM-dd";
-    
+
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         try
