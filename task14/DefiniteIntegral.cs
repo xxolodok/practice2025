@@ -15,8 +15,8 @@ public class DefiniteIntegral
 
         Thread[] threads = new Thread[threadsNumber];
 
-        var barrier = new Barrier(threadsNumber + 1);
-        threads = Enumerable.Range(0, threadsNumber).Select(i =>
+        using(var barrier = new Barrier(threadsNumber + 1))
+        {threads = Enumerable.Range(0, threadsNumber).Select(i =>
         {
             double start = a + i * subIntervalLength;
             double end = (i == threadsNumber - 1) ? b : start + subIntervalLength;
@@ -47,14 +47,13 @@ public class DefiniteIntegral
             return thread;
         }).ToArray();
 
-        foreach (var thread in threads)
-        {
-            thread.Start();
-        }
+            foreach (var thread in threads)
+            {
+                thread.Start();
+            }
 
-        barrier.SignalAndWait();
-        barrier.Disponse();
+            barrier.SignalAndWait();
 
-        return totalResult;
-    }
+            return totalResult;
+        } }
 }
