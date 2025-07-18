@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <AssemblyName>TestClasses</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AttributesLib\AttributesLib.csproj" />
+  </ItemGroup>
+
+  <Target Name="CopyToTestLib" AfterTargets="Build">
+    <PropertyGroup>
+      <SolutionDir>$(MSBuildThisFileDirectory)..\</SolutionDir>
+      <TestClassesLibPath>$(SolutionDir)TestClassesLib\</TestClassesLibPath>
+    </PropertyGroup>
+    
+    <MakeDir Directories="$(TestClassesLibPath)" 
+             Condition="!Exists('$(TestClassesLibPath)')" />
+    
+    <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" 
+          DestinationFolder="$(TestClassesLibPath)" />
+    
+  </Target>
+
+</Project>
